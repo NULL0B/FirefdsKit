@@ -22,8 +22,6 @@ import androidx.annotation.Keep;
 import com.crossbowffs.remotepreferences.RemotePreferences;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
-import de.robv.android.xposed.IXposedHookZygoteInit;
-import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
@@ -32,15 +30,7 @@ import sb.firefds.pie.firefdskit.utils.Packages;
 import sb.firefds.pie.firefdskit.utils.Utils;
 
 @Keep
-public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
-
-    @Override
-    public void initZygote(StartupParam startupParam) {
-
-        // Do not load if Not a Touchwiz Rom
-        if (Utils.isNotSamsungRom())
-            return;
-    }
+public class Xposed implements IXposedHookLoadPackage {
 
     @Override
     public void handleLoadPackage(LoadPackageParam lpparam) {
@@ -49,15 +39,9 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
         if (Utils.isNotSamsungRom())
             return;
 
-        XposedHelpers.findAndHookMethod("android.app.Application", lpparam.classLoader, "onCreate", new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) {
-            }
-        });
-
         Object activityThread = XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", null), "currentActivityThread");
         Context context = (Context) XposedHelpers.callMethod(activityThread, "getSystemContext");
-        SharedPreferences prefs = new RemotePreferences(context, "sb.firefds.pie.firefdskit.preferences", BuildConfig.APPLICATION_ID + "_preferences");
+        SharedPreferences prefs = new RemotePreferences(context, "sb.firefds.pie.firefdskit.preferences", BuildConfig.APPLICATION_ID + "_preferences", true);
 
         if (lpparam.packageName.equals(Packages.FIREFDSKIT)) {
             if (prefs != null) {
@@ -74,8 +58,13 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
             }
         }
 
-        if (lpparam.packageName.equals(Packages.ANDROID)) {
+        try {
+            XSystemWide.doHook(prefs);
+        } catch (Throwable e) {
+            XposedBridge.log(e);
+        }
 
+        if (lpparam.packageName.equals(Packages.ANDROID)) {
             try {
                 XPM28.doHook(lpparam.classLoader);
             } catch (Throwable e) {
@@ -84,12 +73,6 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
             try {
                 XAndroidPackage.doHook(prefs, lpparam.classLoader);
-            } catch (Throwable e) {
-                XposedBridge.log(e);
-            }
-
-            try {
-                XSystemWide.doHook(prefs);
             } catch (Throwable e) {
                 XposedBridge.log(e);
             }
