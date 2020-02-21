@@ -17,6 +17,7 @@ package sb.firefds.pie.firefdskit;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -34,7 +35,6 @@ import java.util.TimeZone;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
-import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
@@ -75,7 +75,7 @@ public class XSysUIFeaturePackage {
     private static Class<?> qsClock;
     private static Method updateClock;
 
-    public static void doHook(final XSharedPreferences prefs, final ClassLoader classLoader) {
+    public static void doHook(final SharedPreferences prefs, final ClassLoader classLoader) {
 
 
         try {

@@ -1,12 +1,12 @@
 package sb.firefds.pie.firefdskit;
 
+import android.content.SharedPreferences;
 import android.os.PowerManager;
 import android.view.SurfaceView;
 import android.view.Window;
 import android.view.WindowManager;
 
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
@@ -18,7 +18,7 @@ public class XSystemWide {
 
     private final static String WIFI_AP_CUST_CLASS = "android.net.wifi.WifiApCust";
 
-    public static void doHook(final XSharedPreferences prefs) {
+    public static void doHook(final SharedPreferences prefs) {
 
         try {
             if (prefs.getBoolean(PREF_DISABLE_SECURE_FLAG, false)) {

@@ -17,6 +17,7 @@ package sb.firefds.pie.firefdskit;
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.Signature;
 import android.os.Handler;
 import android.os.Looper;
@@ -26,7 +27,6 @@ import java.util.List;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
-import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
@@ -52,7 +52,7 @@ public class XAndroidPackage {
     private static Context mPackageManagerServiceContext;
     private static boolean isFB;
 
-    public static void doHook(final XSharedPreferences prefs, final ClassLoader classLoader) {
+    public static void doHook(final SharedPreferences prefs, final ClassLoader classLoader) {
 
         try {
             if (prefs.getBoolean(PREF_DEFAULT_REBOOT_BEHAVIOR, false)) {

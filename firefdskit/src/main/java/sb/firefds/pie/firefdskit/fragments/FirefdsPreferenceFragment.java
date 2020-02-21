@@ -14,8 +14,6 @@ import sb.firefds.pie.firefdskit.R;
 import sb.firefds.pie.firefdskit.notifications.RebootNotification;
 import sb.firefds.pie.firefdskit.utils.Utils;
 
-import static sb.firefds.pie.firefdskit.FirefdsKitActivity.fixPermissions;
-import static sb.firefds.pie.firefdskit.FirefdsKitActivity.getAppContext;
 import static sb.firefds.pie.firefdskit.FirefdsKitActivity.getSharedPreferences;
 import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_SCREEN_TIMEOUT_HOURS;
 import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_SCREEN_TIMEOUT_MINUTES;
@@ -47,7 +45,6 @@ public class FirefdsPreferenceFragment extends PreferenceFragmentCompat
 
             for (String string : litePrefs) {
                 if (key.equalsIgnoreCase(string)) {
-                    fixPermissions(getAppContext());
                     return;
                 }
             }
@@ -56,7 +53,6 @@ public class FirefdsPreferenceFragment extends PreferenceFragmentCompat
             if (!changesMade.contains(key)) {
                 changesMade.add(key);
             }
-            fixPermissions(getAppContext());
             RebootNotification.notify(fragmentActivity, changesMade.size(), true);
         } catch (Throwable e) {
             Utils.log(e);
@@ -65,21 +61,19 @@ public class FirefdsPreferenceFragment extends PreferenceFragmentCompat
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-
+        getPreferenceManager().setStorageDeviceProtected();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         registerPrefsReceiver();
-        fixPermissions(getAppContext());
     }
 
     @Override
     public void onPause() {
         super.onPause();
         unregisterPrefsReceiver();
-        fixPermissions(getAppContext());
     }
 
     private void setTimeoutPrefs(SharedPreferences sharedPreferences, String key) {

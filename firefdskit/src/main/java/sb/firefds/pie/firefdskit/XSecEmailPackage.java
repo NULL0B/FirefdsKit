@@ -15,11 +15,11 @@
 package sb.firefds.pie.firefdskit;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 import de.robv.android.xposed.XC_MethodReplacement;
-import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import sb.firefds.pie.firefdskit.utils.Packages;
@@ -35,7 +35,7 @@ public class XSecEmailPackage {
 
     private static ClassLoader classLoader;
 
-    public static void doHook(final XSharedPreferences prefs, ClassLoader classLoader) {
+    public static void doHook(final SharedPreferences prefs, ClassLoader classLoader) {
 
         XSecEmailPackage.classLoader = classLoader;
 

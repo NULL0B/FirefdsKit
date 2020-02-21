@@ -110,8 +110,8 @@ public class FirefdsKitActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        appContext = Utils.isDeviceEncrypted() ? createDeviceProtectedStorageContext() : this;
-        sharedPreferences = appContext.getSharedPreferences(PREFS, 0);
+        appContext = createDeviceProtectedStorageContext();
+        sharedPreferences = appContext.getSharedPreferences(PREFS, MODE_PRIVATE);
         activity = this;
         verifyStoragePermissions(this);
 
@@ -174,8 +174,6 @@ public class FirefdsKitActivity extends AppCompatActivity
                 Utils.log(e);
             }
         }
-
-        fixAppPermissions(appContext);
 
         if (!XposedChecker.isActive()) {
             setCardStatus(R.drawable.ic_error,
@@ -467,31 +465,6 @@ public class FirefdsKitActivity extends AppCompatActivity
         }
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    @SuppressLint("SetWorldReadable")
-    public static void fixPermissions(Context context) {
-        File sharedPrefsFolder = new File(context.getDataDir().getAbsolutePath() + "/shared_prefs");
-        if (sharedPrefsFolder.exists()) {
-            sharedPrefsFolder.setExecutable(true, false);
-            sharedPrefsFolder.setReadable(true, false);
-            File f = new File(String.format("%s/%s_preferences.xml",
-                    sharedPrefsFolder.getAbsolutePath(),
-                    BuildConfig.APPLICATION_ID));
-            if (f.exists()) {
-                f.setReadable(true, false);
-                f.setExecutable(true, false);
-            }
-        }
-    }
-
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    @SuppressLint("SetWorldReadable")
-    private static void fixAppPermissions(Context context) {
-        File appFolder = context.getFilesDir().getParentFile();
-        appFolder.setExecutable(true, false);
-        appFolder.setReadable(true, false);
-    }
-
     private static void setDefaultPreferences(boolean forceDefault) {
         upgradePreferences();
         PreferenceManager.setDefaultValues(appContext, R.xml.lockscreen_settings, true);
@@ -526,7 +499,6 @@ public class FirefdsKitActivity extends AppCompatActivity
                     SemCscFeature.getInstance()
                             .getBoolean(FORCE_CONNECT_MMS)).apply();
         }
-        fixPermissions(appContext);
     }
 
     private static void upgradePreferences() {
@@ -584,7 +556,6 @@ public class FirefdsKitActivity extends AppCompatActivity
                         prefEdit.putString(key, ((String) v));
                 }
                 prefEdit.apply();
-                fixPermissions(appContext);
             } catch (IOException | ClassNotFoundException e) {
                 Utils.log(e);
             } finally {

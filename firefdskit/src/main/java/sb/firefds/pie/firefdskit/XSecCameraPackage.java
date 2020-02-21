@@ -14,8 +14,9 @@
  */
 package sb.firefds.pie.firefdskit;
 
+import android.content.SharedPreferences;
+
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
@@ -30,7 +31,7 @@ public class XSecCameraPackage {
     private static final String CAMERA_TEMPERATURE_MANAGER = CAMERA + ".provider.CameraTemperatureManager";
     private static final String PREFERENCE_SETTING_FRAGMENT = CAMERA + ".setting.PreferenceSettingFragment";
 
-    public static void doHook(final XSharedPreferences prefs, ClassLoader classLoader) {
+    public static void doHook(final SharedPreferences prefs, ClassLoader classLoader) {
 
         final Class<?> cameraFeatureClass = XposedHelpers.findClass(FEATURE, classLoader);
 
@@ -57,7 +58,6 @@ public class XSecCameraPackage {
                     new XC_MethodHook() {
                         @Override
                         protected void beforeHookedMethod(MethodHookParam param) {
-                            prefs.reload();
                             XposedHelpers.setStaticBooleanField(cameraFeatureClass,
                                     "ENABLE_SHUTTER_SOUND_MENU",
                                     prefs.getBoolean(PREF_ENABLE_CAMERA_SHUTTER_MENU, false));

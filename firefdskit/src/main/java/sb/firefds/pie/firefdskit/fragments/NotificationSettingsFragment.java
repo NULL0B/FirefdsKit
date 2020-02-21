@@ -6,7 +6,6 @@ import androidx.preference.ListPreference;
 import androidx.preference.SwitchPreferenceCompat;
 
 import sb.firefds.pie.firefdskit.R;
-import sb.firefds.pie.firefdskit.utils.Utils;
 
 import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_CLOCK_DATE_ON_RIGHT;
 import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_CLOCK_DATE_PREFERENCE;
@@ -14,9 +13,7 @@ import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_CLOCK_DATE_PREFER
 public class NotificationSettingsFragment extends FirefdsPreferenceFragment {
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        if (Utils.isDeviceEncrypted()) {
-            getPreferenceManager().setStorageDeviceProtected();
-        }
+        getPreferenceManager().setStorageDeviceProtected();
         setPreferencesFromResource(R.xml.notification_settings, rootKey);
     }
 

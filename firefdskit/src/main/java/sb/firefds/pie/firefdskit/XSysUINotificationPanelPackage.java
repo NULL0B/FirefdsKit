@@ -1,10 +1,10 @@
 package sb.firefds.pie.firefdskit;
 
+import android.content.SharedPreferences;
 import android.widget.TextView;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
-import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import sb.firefds.pie.firefdskit.utils.Utils;
@@ -31,7 +31,7 @@ public class XSysUINotificationPanelPackage {
     private static String dataIconBehavior;
     private static ClassLoader classLoader;
 
-    public static void doHook(final XSharedPreferences prefs, final ClassLoader classLoader) {
+    public static void doHook(final SharedPreferences prefs, final ClassLoader classLoader) {
 
         XSysUINotificationPanelPackage.classLoader = classLoader;
         final Class<?> systemUIRuneClass = XposedHelpers.findClass(RUNE, classLoader);
@@ -45,7 +45,6 @@ public class XSysUINotificationPanelPackage {
                         protected void afterHookedMethod(MethodHookParam param) {
                             TextView tvCarrier = (TextView) param.thisObject;
 
-                            prefs.reload();
                             if (prefs.getBoolean(PREF_HIDE_CARRIER_LABEL, false)) {
                                 tvCarrier.setText(" ");
                             }
@@ -81,7 +80,6 @@ public class XSysUINotificationPanelPackage {
                     new XC_MethodReplacement() {
                         @Override
                         protected Object replaceHookedMethod(MethodHookParam param) {
-                            prefs.reload();
                             return prefs.getBoolean(PREF_DATA_USAGE_VIEW, false);
                         }
                     });

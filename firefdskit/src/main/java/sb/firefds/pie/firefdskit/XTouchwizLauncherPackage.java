@@ -1,7 +1,8 @@
 package sb.firefds.pie.firefdskit;
 
+import android.content.SharedPreferences;
+
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
@@ -12,7 +13,7 @@ public class XTouchwizLauncherPackage {
     private static final String PAGE_TRANSITION_MANAGER =
             "com.android.launcher3.framework.view.features.pagetransition.PageTransitionManager";
 
-    public static void doHook(XSharedPreferences prefs, ClassLoader classLoader) {
+    public static void doHook(SharedPreferences prefs, ClassLoader classLoader) {
         int transEffect = Integer.valueOf(prefs.getString(PREF_TRANSITION_EFFECT, "0"));
         if (transEffect != 0) {
             try {

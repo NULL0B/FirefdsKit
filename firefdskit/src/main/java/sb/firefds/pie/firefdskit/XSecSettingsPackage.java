@@ -18,6 +18,7 @@ package sb.firefds.pie.firefdskit;
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.UserManager;
@@ -30,7 +31,6 @@ import java.lang.reflect.Constructor;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
-import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import sb.firefds.pie.firefdskit.utils.Utils;
@@ -58,14 +58,14 @@ public class XSecSettingsPackage {
 
 
     private static ClassLoader classLoader;
-    private static XSharedPreferences prefs;
+    private static SharedPreferences prefs;
     @SuppressLint("StaticFieldLeak")
     private static Context mContext;
     private static int[] colorArray;
     private static Class<?> NavigationBarSettings;
     private static Class<?> NavigationBarColorPreference;
 
-    public static void doHook(final XSharedPreferences prefs, final ClassLoader classLoader) {
+    public static void doHook(final SharedPreferences prefs, final ClassLoader classLoader) {
 
         XSecSettingsPackage.classLoader = classLoader;
         XSecSettingsPackage.prefs = prefs;
@@ -98,7 +98,6 @@ public class XSecSettingsPackage {
                     new XC_MethodHook() {
                         @Override
                         protected void afterHookedMethod(MethodHookParam param) {
-                            prefs.reload();
                             if (prefs.getBoolean(PREF_DISABLE_BLUETOOTH_DIALOG, false))
                                 ((android.app.Activity) param.thisObject).finish();
                         }
