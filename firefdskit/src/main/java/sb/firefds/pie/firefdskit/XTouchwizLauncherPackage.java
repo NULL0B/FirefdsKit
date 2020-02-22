@@ -1,6 +1,6 @@
 package sb.firefds.pie.firefdskit;
 
-import android.content.SharedPreferences;
+import com.crossbowffs.remotepreferences.RemotePreferences;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
@@ -13,7 +13,7 @@ public class XTouchwizLauncherPackage {
     private static final String PAGE_TRANSITION_MANAGER =
             "com.android.launcher3.framework.view.features.pagetransition.PageTransitionManager";
 
-    public static void doHook(SharedPreferences prefs, ClassLoader classLoader) {
+    public static void doHook(final RemotePreferences prefs, ClassLoader classLoader) {
         int transEffect = Integer.valueOf(prefs.getString(PREF_TRANSITION_EFFECT, "0"));
         if (transEffect != 0) {
             try {

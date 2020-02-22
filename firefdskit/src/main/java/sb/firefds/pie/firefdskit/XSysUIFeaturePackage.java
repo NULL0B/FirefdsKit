@@ -17,7 +17,6 @@ package sb.firefds.pie.firefdskit;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -26,6 +25,8 @@ import android.provider.Settings;
 import android.text.format.DateFormat;
 import android.view.Display;
 import android.widget.TextView;
+
+import com.crossbowffs.remotepreferences.RemotePreferences;
 
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
@@ -75,7 +76,7 @@ public class XSysUIFeaturePackage {
     private static Class<?> qsClock;
     private static Method updateClock;
 
-    public static void doHook(final SharedPreferences prefs, final ClassLoader classLoader) {
+    public static void doHook(final RemotePreferences prefs, final ClassLoader classLoader) {
 
 
         try {

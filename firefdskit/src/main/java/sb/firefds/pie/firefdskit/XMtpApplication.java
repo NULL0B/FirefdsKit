@@ -1,6 +1,6 @@
 package sb.firefds.pie.firefdskit;
 
-import android.content.SharedPreferences;
+import com.crossbowffs.remotepreferences.RemotePreferences;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
@@ -14,7 +14,7 @@ public class XMtpApplication {
     private static ClassLoader classLoader;
     private static final String USB_CONNECTION = MTP_APPLICATION + ".USBConnection";
 
-    public static void doHook(SharedPreferences prefs, ClassLoader classLoader) {
+    public static void doHook(final RemotePreferences prefs, ClassLoader classLoader) {
 
         XMtpApplication.classLoader = classLoader;
 

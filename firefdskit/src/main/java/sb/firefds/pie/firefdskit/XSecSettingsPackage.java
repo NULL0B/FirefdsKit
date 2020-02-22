@@ -18,12 +18,13 @@ package sb.firefds.pie.firefdskit;
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.UserManager;
 import android.util.AttributeSet;
 import android.util.Xml;
+
+import com.crossbowffs.remotepreferences.RemotePreferences;
 
 import org.xmlpull.v1.XmlPullParser;
 
@@ -58,14 +59,15 @@ public class XSecSettingsPackage {
 
 
     private static ClassLoader classLoader;
-    private static SharedPreferences prefs;
+    @SuppressLint("StaticFieldLeak")
+    private static RemotePreferences prefs;
     @SuppressLint("StaticFieldLeak")
     private static Context mContext;
     private static int[] colorArray;
     private static Class<?> NavigationBarSettings;
     private static Class<?> NavigationBarColorPreference;
 
-    public static void doHook(final SharedPreferences prefs, final ClassLoader classLoader) {
+    public static void doHook(final RemotePreferences prefs, final ClassLoader classLoader) {
 
         XSecSettingsPackage.classLoader = classLoader;
         XSecSettingsPackage.prefs = prefs;

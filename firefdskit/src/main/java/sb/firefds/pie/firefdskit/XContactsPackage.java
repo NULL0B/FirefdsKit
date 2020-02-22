@@ -1,6 +1,6 @@
 package sb.firefds.pie.firefdskit;
 
-import android.content.SharedPreferences;
+import com.crossbowffs.remotepreferences.RemotePreferences;
 
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
@@ -12,7 +12,7 @@ import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_DISABLE_NUMBER_FO
 public class XContactsPackage {
     private static final String CSC_FEATURE_UTIL = "com.samsung.android.dialtacts.util.CscFeatureUtil";
 
-    public static void doHook(SharedPreferences prefs, ClassLoader classLoader) {
+    public static void doHook(final RemotePreferences prefs, ClassLoader classLoader) {
 
 
         if (prefs.getBoolean(PREF_DISABLE_FIX_CONTACTS_SANDHOOK_CRASH, false)) {

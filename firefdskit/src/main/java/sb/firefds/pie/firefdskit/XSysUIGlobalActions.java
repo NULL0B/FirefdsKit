@@ -18,12 +18,12 @@ package sb.firefds.pie.firefdskit;
 import android.app.Dialog;
 import android.app.KeyguardManager;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.crossbowffs.remotepreferences.RemotePreferences;
 import com.samsung.android.globalactions.presentation.SecGlobalActions;
 import com.samsung.android.globalactions.presentation.SecGlobalActionsPresenter;
 import com.samsung.android.globalactions.presentation.view.ResourceFactory;
@@ -110,7 +110,7 @@ public class XSysUIGlobalActions {
     private static String mFlashlightOnStr;
     private static String mFlashlightOffStr;
 
-    public static void doHook(final SharedPreferences prefs, final ClassLoader classLoader) {
+    public static void doHook(final RemotePreferences prefs, final ClassLoader classLoader) {
 
 
         Class<?> flashlightControllerImplClass = XposedHelpers.findClass(FLASHLIGHT_CONTROLLER_IMPL_CLASS, classLoader);

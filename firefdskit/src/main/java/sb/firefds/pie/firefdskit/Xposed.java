@@ -15,10 +15,10 @@
 package sb.firefds.pie.firefdskit;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import androidx.annotation.Keep;
 
+import com.crossbowffs.remotepreferences.RemotePreferenceAccessException;
 import com.crossbowffs.remotepreferences.RemotePreferences;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -41,9 +41,13 @@ public class Xposed implements IXposedHookLoadPackage {
             return;
         }
 
-        Object activityThread = XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", null), "currentActivityThread");
+        Class<?> activityThreadClass = XposedHelpers.findClass("android.app.ActivityThread", null);
+        Object activityThread = XposedHelpers.callStaticMethod(activityThreadClass, "currentActivityThread");
         Context context = (Context) XposedHelpers.callMethod(activityThread, "getSystemContext");
-        SharedPreferences prefs = new RemotePreferences(context, "sb.firefds.pie.firefdskit.preferences", BuildConfig.APPLICATION_ID + "_preferences", true);
+        RemotePreferences prefs = new RemotePreferences(context,
+                "sb.firefds.pie.firefdskit.preferences",
+                BuildConfig.APPLICATION_ID + "_preferences",
+                true);
 
         if (lpparam.packageName.equals(Packages.FIREFDSKIT)) {
             if (prefs != null) {
@@ -63,7 +67,9 @@ public class Xposed implements IXposedHookLoadPackage {
         try {
             XSystemWide.doHook(prefs);
         } catch (Throwable e) {
-            XposedBridge.log(e);
+            if (!(e instanceof RemotePreferenceAccessException)) {
+                XposedBridge.log(e);
+            }
         }
 
         if (lpparam.packageName.equals(Packages.ANDROID)) {
@@ -76,7 +82,9 @@ public class Xposed implements IXposedHookLoadPackage {
             try {
                 XAndroidPackage.doHook(prefs, lpparam.classLoader);
             } catch (Throwable e) {
-                XposedBridge.log(e);
+                if (!(e instanceof RemotePreferenceAccessException)) {
+                    XposedBridge.log(e);
+                }
             }
         }
 

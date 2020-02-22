@@ -14,13 +14,13 @@
  */
 package sb.firefds.pie.firefdskit;
 
-import android.content.SharedPreferences;
+import com.crossbowffs.remotepreferences.RemotePreferences;
 
 import de.robv.android.xposed.XposedBridge;
 
 public class XSysUIPackage {
 
-    public static void doHook(final SharedPreferences prefs, ClassLoader classLoader) {
+    public static void doHook(final RemotePreferences prefs, ClassLoader classLoader) {
 
 		try {
 			XSysUIFeaturePackage.doHook(prefs, classLoader);

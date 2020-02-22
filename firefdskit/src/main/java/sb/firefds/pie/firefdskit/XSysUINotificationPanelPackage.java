@@ -1,7 +1,8 @@
 package sb.firefds.pie.firefdskit;
 
-import android.content.SharedPreferences;
 import android.widget.TextView;
+
+import com.crossbowffs.remotepreferences.RemotePreferences;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
@@ -31,7 +32,7 @@ public class XSysUINotificationPanelPackage {
     private static String dataIconBehavior;
     private static ClassLoader classLoader;
 
-    public static void doHook(final SharedPreferences prefs, final ClassLoader classLoader) {
+    public static void doHook(final RemotePreferences prefs, final ClassLoader classLoader) {
 
         XSysUINotificationPanelPackage.classLoader = classLoader;
         final Class<?> systemUIRuneClass = XposedHelpers.findClass(RUNE, classLoader);
