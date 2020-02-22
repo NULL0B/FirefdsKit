@@ -18,7 +18,6 @@ import android.content.Context;
 
 import androidx.annotation.Keep;
 
-import com.crossbowffs.remotepreferences.RemotePreferenceAccessException;
 import com.crossbowffs.remotepreferences.RemotePreferences;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -67,9 +66,7 @@ public class Xposed implements IXposedHookLoadPackage {
         try {
             XSystemWide.doHook(prefs);
         } catch (Throwable e) {
-            if (!(e instanceof RemotePreferenceAccessException)) {
-                XposedBridge.log(e);
-            }
+            XposedBridge.log(e);
         }
 
         if (lpparam.packageName.equals(Packages.ANDROID)) {
@@ -82,9 +79,7 @@ public class Xposed implements IXposedHookLoadPackage {
             try {
                 XAndroidPackage.doHook(prefs, lpparam.classLoader);
             } catch (Throwable e) {
-                if (!(e instanceof RemotePreferenceAccessException)) {
-                    XposedBridge.log(e);
-                }
+                XposedBridge.log(e);
             }
         }
 

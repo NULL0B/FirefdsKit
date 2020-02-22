@@ -18,7 +18,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.UserManager;
 
-import com.crossbowffs.remotepreferences.RemotePreferenceAccessException;
 import com.crossbowffs.remotepreferences.RemotePreferences;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -65,6 +64,9 @@ public class XAndroidPackage {
                             }
                         }
                     });
+        } catch (Throwable e) {
+            XposedBridge.log(e);
+        }
 
             /*Class<?> packageManagerService = XposedHelpers.findClass(PACKAGE_MANAGER_SERVICE, classLoader);
             Class<?> installer = XposedHelpers.findClass(INSTALLER, classLoader);
@@ -111,6 +113,7 @@ public class XAndroidPackage {
                         }
                     });*/
 
+        try {
             XposedHelpers.findAndHookMethod(UserManager.class, "getMaxSupportedUsers",
                     new XC_MethodHook() {
                         @Override
@@ -120,7 +123,11 @@ public class XAndroidPackage {
                             }
                         }
                     });
+        } catch (Throwable e) {
+            XposedBridge.log(e);
+        }
 
+        try {
             Class<?> statusBarManagerService = XposedHelpers.findClass(STATUS_BAR_MANAGER_SERVICE, classLoader);
             XposedHelpers.findAndHookMethod(statusBarManagerService,
                     "setIconVisibility",
@@ -136,7 +143,11 @@ public class XAndroidPackage {
                             }
                         }
                     });
+        } catch (Throwable e) {
+            XposedBridge.log(e);
+        }
 
+        try {
             XposedHelpers.findAndHookMethod(USB_HANDLER,
                     classLoader,
                     "updateUsbNotification",
@@ -149,11 +160,8 @@ public class XAndroidPackage {
                             }
                         }
                     });
-
         } catch (Throwable e) {
-            if (!(e instanceof RemotePreferenceAccessException)) {
-                XposedBridge.log(e);
-            }
+            XposedBridge.log(e);
         }
     }
 
