@@ -70,6 +70,5 @@ public class Preferences {
 
     public static final String PREF_DISABLE_EXCHANGE_SECURITY = "disableExchangeLockSecurity";
     public static final String PREF_MAKE_OFFICIAL = "makeMeTooLegit";
-    public static final String PREF_DISABLE_SIGNATURE_CHECK = "disableSignatureCheck";
     public static final String PREF_DISABLE_SECURE_FLAG = "disableFlagSecure";
 }

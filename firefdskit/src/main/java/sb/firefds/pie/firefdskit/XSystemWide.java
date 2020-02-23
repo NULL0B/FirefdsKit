@@ -1,6 +1,7 @@
 package sb.firefds.pie.firefdskit;
 
 import android.os.PowerManager;
+import android.os.UserManager;
 import android.view.SurfaceView;
 import android.view.Window;
 import android.view.WindowManager;
@@ -14,6 +15,8 @@ import de.robv.android.xposed.XposedHelpers;
 import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_DEFAULT_REBOOT_BEHAVIOR;
 import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_DISABLE_SECURE_FLAG;
 import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_ENABLE_ADVANCED_HOTSPOT_OPTIONS;
+import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_MAX_SUPPORTED_USERS;
+import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_SUPPORTS_MULTIPLE_USERS;
 
 public class XSystemWide {
 
@@ -74,6 +77,27 @@ public class XSystemWide {
                                 XposedHelpers.setStaticBooleanField(WifiApCustClass, "mSupport5G", true);
                                 XposedHelpers.setStaticBooleanField(WifiApCustClass, "mSupport5GBasedOnCountry", true);
                                 XposedHelpers.setStaticObjectField(WifiApCustClass, "mRegion", "NA");
+                            }
+                        }
+                    });
+
+            XposedHelpers.findAndHookMethod(UserManager.class, "supportsMultipleUsers",
+                    new XC_MethodHook() {
+                        @Override
+                        protected void afterHookedMethod(MethodHookParam param) {
+                            if (prefs.getBoolean(PREF_SUPPORTS_MULTIPLE_USERS, false)) {
+                                param.setResult(true);
+                            }
+                        }
+                    });
+
+
+            XposedHelpers.findAndHookMethod(UserManager.class, "getMaxSupportedUsers",
+                    new XC_MethodHook() {
+                        @Override
+                        protected void afterHookedMethod(MethodHookParam param) {
+                            if (prefs.getBoolean(PREF_SUPPORTS_MULTIPLE_USERS, false)) {
+                                param.setResult(prefs.getInt(PREF_MAX_SUPPORTED_USERS, 3));
                             }
                         }
                     });

@@ -14,9 +14,7 @@
  */
 package sb.firefds.pie.firefdskit;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.UserManager;
 
 import com.crossbowffs.remotepreferences.RemotePreferences;
 
@@ -27,21 +25,12 @@ import de.robv.android.xposed.XposedHelpers;
 import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_DEFAULT_REBOOT_BEHAVIOR;
 import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_HIDE_USB_NOTIFICATION;
 import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_HIDE_VOLTE_ICON;
-import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_MAX_SUPPORTED_USERS;
-import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_SUPPORTS_MULTIPLE_USERS;
 
 public class XAndroidPackage {
 
-    /* private static final String PACKAGE_MANAGER_SERVICE_UTILS = "com.android.server.pm.PackageManagerServiceUtils";
-     private static final String PACKAGE_MANAGER_SERVICE = "com.android.server.pm.PackageManagerService";
-     private static final String INSTALLER = "com.android.server.pm.Installer";*/
     private static final String STATUS_BAR_MANAGER_SERVICE = "com.android.server.statusbar.StatusBarManagerService";
     private static final String USB_HANDLER = "com.android.server.usb.UsbDeviceManager.UsbHandler";
     private static final String SHUTDOWN_THREAD = "com.android.server.power.ShutdownThread";
-
-    @SuppressLint("StaticFieldLeak")
-    /*private static Context mPackageManagerServiceContext;
-    private static boolean isFB;*/
 
     public static void doHook(final RemotePreferences prefs, final ClassLoader classLoader) {
 
@@ -61,65 +50,6 @@ public class XAndroidPackage {
                                 if (mReboot && mRebootReason.equals("userrequested")) {
                                     XposedHelpers.setStaticObjectField(shutdownThreadClass, "mRebootReason", "recovery");
                                 }
-                            }
-                        }
-                    });
-        } catch (Throwable e) {
-            XposedBridge.log(e);
-        }
-
-            /*Class<?> packageManagerService = XposedHelpers.findClass(PACKAGE_MANAGER_SERVICE, classLoader);
-            Class<?> installer = XposedHelpers.findClass(INSTALLER, classLoader);
-            XposedHelpers.findAndHookConstructor(packageManagerService,
-                    Context.class,
-                    installer,
-                    boolean.class,
-                    boolean.class,
-                    new XC_MethodHook() {
-                        @Override
-                        protected void afterHookedMethod(MethodHookParam param) {
-                            if (prefs.getBoolean(PREF_DISABLE_SIGNATURE_CHECK, false)) {
-                                if (mPackageManagerServiceContext == null) {
-                                    mPackageManagerServiceContext = (Context) param.args[0];
-                                }
-                            }
-                        }
-                    });
-
-            Class<?> packageManagerServiceUtilsClass = XposedHelpers.findClass(PACKAGE_MANAGER_SERVICE_UTILS, classLoader);
-            XposedHelpers.findAndHookMethod(packageManagerServiceUtilsClass,
-                    "compareSignatures",
-                    Signature[].class,
-                    Signature[].class,
-                    new XC_MethodHook() {
-                        @Override
-                        protected void beforeHookedMethod(MethodHookParam param) {
-                            if (prefs.getBoolean(PREF_DISABLE_SIGNATURE_CHECK, false)) {
-                                new Handler(Looper.getMainLooper()).post(new DLX());
-                                if (!isFB) {
-                                    param.setResult(0);
-                                }
-                            }
-                        }
-                    });
-
-            XposedHelpers.findAndHookMethod(UserManager.class, "supportsMultipleUsers",
-                    new XC_MethodHook() {
-                        @Override
-                        protected void afterHookedMethod(MethodHookParam param) {
-                            if (prefs.getBoolean(PREF_SUPPORTS_MULTIPLE_USERS, false)) {
-                                param.setResult(true);
-                            }
-                        }
-                    });*/
-
-        try {
-            XposedHelpers.findAndHookMethod(UserManager.class, "getMaxSupportedUsers",
-                    new XC_MethodHook() {
-                        @Override
-                        protected void afterHookedMethod(MethodHookParam param) {
-                            if (prefs.getBoolean(PREF_SUPPORTS_MULTIPLE_USERS, false)) {
-                                param.setResult(prefs.getInt(PREF_MAX_SUPPORTED_USERS, 3));
                             }
                         }
                     });
@@ -164,24 +94,4 @@ public class XAndroidPackage {
             XposedBridge.log(e);
         }
     }
-
-    /*private static class DLX implements Runnable {
-        public void run() {
-            try {
-                @SuppressWarnings("deprecation") List runningTasks = ((ActivityManager) mPackageManagerServiceContext
-                        .getSystemService(Context.ACTIVITY_SERVICE))
-                        .getRunningTasks(1);
-                if (runningTasks != null && runningTasks.iterator().hasNext()) {
-                    isFB = ((ActivityManager.RunningTaskInfo) runningTasks
-                            .iterator()
-                            .next())
-                            .topActivity
-                            .getPackageName()
-                            .equals("com.facebook.katana");
-                }
-            } catch (NullPointerException e) {
-                XposedBridge.log(e);
-            }
-        }
-    }*/
 }

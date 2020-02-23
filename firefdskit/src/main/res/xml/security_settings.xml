@@ -24,13 +24,6 @@
             app:iconSpaceReserved="false" />
         <SwitchPreferenceCompat
             android:defaultValue="false"
-            android:key="disableSignatureCheck"
-            android:summaryOff="@string/disable_signature_check_on"
-            android:summaryOn="@string/disable_signature_check_off"
-            android:title="@string/disable_signature_check_title"
-            app:iconSpaceReserved="false" />
-        <SwitchPreferenceCompat
-            android:defaultValue="false"
             android:key="disableFlagSecure"
             android:summaryOff="@string/disable_flag_secure_on"
             android:summaryOn="@string/disable_flag_secure_off"
