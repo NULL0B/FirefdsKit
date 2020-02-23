@@ -14,8 +14,9 @@
  */
 package sb.firefds.q.firefdskit;
 
+import com.crossbowffs.remotepreferences.RemotePreferences;
+
 import de.robv.android.xposed.XC_MethodReplacement;
-import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
@@ -29,7 +30,7 @@ public class XInCallUIPackage {
     private static final String FEATURE_FUNCTION = INCALLUI + ".modelimpl.feature.function";
     private static final String RECORD_VOICE_FEATURE_IMPL = FEATURE_FUNCTION + ".RecordVoiceFeatureImpl";
 
-    public static void doHook(final XSharedPreferences prefs, final ClassLoader classLoader) {
+    public static void doHook(final RemotePreferences prefs, final ClassLoader classLoader) {
 
         try {
             XposedHelpers.findAndHookMethod(RECORD_VOICE_FEATURE_IMPL,
@@ -38,7 +39,6 @@ public class XInCallUIPackage {
                     new XC_MethodReplacement() {
                         @Override
                         protected Object replaceHookedMethod(MethodHookParam param) {
-                            prefs.reload();
                             if (prefs.getBoolean(PREF_ENABLE_CALL_ADD, false) &&
                                     !prefs.getBoolean(PREF_ENABLE_AUTO_CALL_RECORDING, false)) {
                                 return Boolean.FALSE;
@@ -58,7 +58,6 @@ public class XInCallUIPackage {
                     new XC_MethodReplacement() {
                         @Override
                         protected Object replaceHookedMethod(MethodHookParam param) {
-                            prefs.reload();
                             if (prefs.getBoolean(PREF_ENABLE_CALL_RECORDING_MENU, false)) {
                                 return Boolean.TRUE;
                             } else {
@@ -77,7 +76,6 @@ public class XInCallUIPackage {
                     new XC_MethodReplacement() {
                         @Override
                         protected Object replaceHookedMethod(MethodHookParam param) {
-                            prefs.reload();
                             if (prefs.getBoolean(PREF_ENABLE_CALL_ADD, false)) {
                                 return Boolean.FALSE;
                             } else {
@@ -96,7 +94,6 @@ public class XInCallUIPackage {
                     new XC_MethodReplacement() {
                         @Override
                         protected Object replaceHookedMethod(MethodHookParam param) {
-                            prefs.reload();
                             if (prefs.getBoolean(PREF_ENABLE_AUTO_CALL_RECORDING, false)) {
                                 return Boolean.TRUE;
                             } else {

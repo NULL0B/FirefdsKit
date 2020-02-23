@@ -21,9 +21,10 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.UserManager;
 
+import com.crossbowffs.remotepreferences.RemotePreferences;
+
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
-import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
@@ -50,7 +51,7 @@ public class XSecSettingsPackage {
 
     private static ClassLoader classLoader;
 
-    public static void doHook(final XSharedPreferences prefs, final ClassLoader classLoader) {
+    public static void doHook(final RemotePreferences prefs, final ClassLoader classLoader) {
 
         XSecSettingsPackage.classLoader = classLoader;
 
@@ -71,7 +72,6 @@ public class XSecSettingsPackage {
                     new XC_MethodHook() {
                         @Override
                         protected void afterHookedMethod(MethodHookParam param) {
-                            prefs.reload();
                             if (prefs.getBoolean(PREF_DISABLE_BLUETOOTH_DIALOG, false))
                                 ((android.app.Activity) param.thisObject).finish();
                         }

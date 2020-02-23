@@ -1,8 +1,9 @@
 package sb.firefds.q.firefdskit;
 
 
+import com.crossbowffs.remotepreferences.RemotePreferences;
+
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
@@ -13,7 +14,7 @@ public class XFotaAgentPackage {
     private static final String DEVICE_UTILS_OLD = "com.samsung.android.fem.common.util.DeviceUtils";
     private static final String DEVICE_UTILS_NEW = "com.idm.fotaagent.enabler.utils.DeviceUtils";
 
-    public static void doHook(final XSharedPreferences prefs, final ClassLoader classLoader) {
+    public static void doHook(final RemotePreferences prefs, final ClassLoader classLoader) {
 
 
         if (prefs.getBoolean(PREF_MAKE_OFFICIAL, true)) {

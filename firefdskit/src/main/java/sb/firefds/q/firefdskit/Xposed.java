@@ -14,38 +14,27 @@
  */
 package sb.firefds.q.firefdskit;
 
+import android.content.Context;
+
 import androidx.annotation.Keep;
 
-import java.io.File;
+import com.crossbowffs.remotepreferences.RemotePreferences;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
-import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodReplacement;
-import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import sb.firefds.q.firefdskit.utils.Packages;
 import sb.firefds.q.firefdskit.utils.Utils;
 
+import static sb.firefds.q.firefdskit.utils.Constants.PREFS;
+import static sb.firefds.q.firefdskit.utils.Constants.PREFS_AUTHORITY;
+
 @Keep
-public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
+public class Xposed implements IXposedHookLoadPackage {
 
-    private static XSharedPreferences prefs;
-    private static File securePrefFile = new File("/data/user_de/0/sb.firefds.q.firefdskit/shared_prefs/"
-            + BuildConfig.APPLICATION_ID + "_preferences.xml");
-
-    @Override
-    public void initZygote(StartupParam startupParam) {
-
-        // Do not load if Not a Touchwiz Rom
-        if (Utils.isNotSamsungRom()) {
-            XposedBridge.log("FFK: com.samsung.device.jar or com.samsung.device.lite.jar not found!");
-            return;
-        }
-
-        getModuleSharedPreferences();
-    }
+    private final static String ACTIVITY_THREAD_CLASS = "android.app.ActivityThread";
 
     @Override
     public void handleLoadPackage(LoadPackageParam lpparam) {
@@ -55,6 +44,11 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
             XposedBridge.log("FFK: com.samsung.device.jar or com.samsung.device.lite.jar not found!");
             return;
         }
+
+        Class<?> activityThreadClass = XposedHelpers.findClass(ACTIVITY_THREAD_CLASS, null);
+        Object activityThread = XposedHelpers.callStaticMethod(activityThreadClass, "currentActivityThread");
+        Context context = (Context) XposedHelpers.callMethod(activityThread, "getSystemContext");
+        RemotePreferences prefs = new RemotePreferences(context, PREFS_AUTHORITY, PREFS);
 
         if (lpparam.packageName.equals(Packages.FIREFDSKIT)) {
             if (prefs != null) {
@@ -170,17 +164,6 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
             } catch (Exception e1) {
                 XposedBridge.log(e1);
             }
-        }
-    }
-
-    private static void getModuleSharedPreferences() {
-        if (prefs == null) {
-            prefs = Utils.isDeviceEncrypted() ?
-                    new XSharedPreferences(securePrefFile) :
-                    new XSharedPreferences(BuildConfig.APPLICATION_ID);
-            prefs.makeWorldReadable();
-        } else {
-            prefs.reload();
         }
     }
 }

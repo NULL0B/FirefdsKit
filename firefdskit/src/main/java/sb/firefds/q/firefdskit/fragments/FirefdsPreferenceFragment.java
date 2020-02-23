@@ -14,8 +14,6 @@ import sb.firefds.q.firefdskit.R;
 import sb.firefds.q.firefdskit.notifications.RebootNotification;
 import sb.firefds.q.firefdskit.utils.Utils;
 
-import static sb.firefds.q.firefdskit.FirefdsKitActivity.fixPermissions;
-import static sb.firefds.q.firefdskit.FirefdsKitActivity.getAppContext;
 import static sb.firefds.q.firefdskit.FirefdsKitActivity.getSharedPreferences;
 import static sb.firefds.q.firefdskit.utils.Preferences.PREF_SCREEN_TIMEOUT_HOURS;
 import static sb.firefds.q.firefdskit.utils.Preferences.PREF_SCREEN_TIMEOUT_MINUTES;
@@ -47,7 +45,6 @@ public class FirefdsPreferenceFragment extends PreferenceFragmentCompat
 
             for (String string : litePrefs) {
                 if (key.equalsIgnoreCase(string)) {
-                    fixPermissions(getAppContext());
                     return;
                 }
             }
@@ -56,7 +53,6 @@ public class FirefdsPreferenceFragment extends PreferenceFragmentCompat
             if (!changesMade.contains(key)) {
                 changesMade.add(key);
             }
-            fixPermissions(getAppContext());
             RebootNotification.notify(fragmentActivity, changesMade.size(), true);
         } catch (Throwable e) {
             Utils.log(e);
@@ -72,14 +68,12 @@ public class FirefdsPreferenceFragment extends PreferenceFragmentCompat
     public void onResume() {
         super.onResume();
         registerPrefsReceiver();
-        fixPermissions(getAppContext());
     }
 
     @Override
     public void onPause() {
         super.onPause();
         unregisterPrefsReceiver();
-        fixPermissions(getAppContext());
     }
 
     private void setTimeoutPrefs(SharedPreferences sharedPreferences, String key) {

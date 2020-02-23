@@ -26,6 +26,8 @@ import android.text.format.DateFormat;
 import android.view.Display;
 import android.widget.TextView;
 
+import com.crossbowffs.remotepreferences.RemotePreferences;
+
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -34,7 +36,6 @@ import java.util.TimeZone;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
-import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
@@ -74,7 +75,7 @@ public class XSysUIFeaturePackage {
     private static Class<?> qsClock;
     private static Method updateClock;
 
-    public static void doHook(final XSharedPreferences prefs, final ClassLoader classLoader) {
+    public static void doHook(final RemotePreferences prefs, final ClassLoader classLoader) {
 
 
         try {

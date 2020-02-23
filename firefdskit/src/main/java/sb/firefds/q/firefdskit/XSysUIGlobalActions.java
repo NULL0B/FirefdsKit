@@ -22,6 +22,7 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.crossbowffs.remotepreferences.RemotePreferences;
 import com.samsung.android.globalactions.presentation.SecGlobalActions;
 import com.samsung.android.globalactions.presentation.SecGlobalActionsPresenter;
 import com.samsung.android.globalactions.presentation.view.ResourceFactory;
@@ -37,7 +38,6 @@ import java.lang.reflect.Constructor;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
-import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import sb.firefds.q.firefdskit.actionViewModels.FirefdsKitActionViewModel;
@@ -112,7 +112,7 @@ public class XSysUIGlobalActions {
     private static String mFlashlightOnStr;
     private static String mFlashlightOffStr;
 
-    public static void doHook(final XSharedPreferences prefs, final ClassLoader classLoader) {
+    public static void doHook(final RemotePreferences prefs, final ClassLoader classLoader) {
 
         Class<?> flashlightControllerImplClass = XposedHelpers.findClass(FLASHLIGHT_CONTROLLER_IMPL_CLASS, classLoader);
 

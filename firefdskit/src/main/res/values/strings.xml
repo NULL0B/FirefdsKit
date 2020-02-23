@@ -123,10 +123,7 @@
     <string name="status_bar_double_tap_title">Double Tap To Sleep</string>
     <string name="disable_high_level_brightness_summary">Disable high level brightness popup</string>
     <string name="disable_high_level_brightness_title">High Level Brightness</string>
-    <string name="disable_signature_check_title">Signature Check</string>
     <string name="disable_flag_secure_title">Secure Flag</string>
-    <string name="disable_signature_check_on">Signature check enabled</string>
-    <string name="disable_signature_check_off">Signature check disabled</string>
     <string name="disable_flag_secure_on">Secure flag enabled</string>
     <string name="disable_flag_secure_off">Secure flag disabled</string>
     <string name="screen_unlock">Screen Unlock</string>

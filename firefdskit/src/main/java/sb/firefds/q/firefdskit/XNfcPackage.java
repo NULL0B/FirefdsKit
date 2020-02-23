@@ -14,8 +14,9 @@
  */
 package sb.firefds.q.firefdskit;
 
+import com.crossbowffs.remotepreferences.RemotePreferences;
+
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
@@ -32,7 +33,7 @@ public class XNfcPackage {
 
     private static final String NFC_SERVICE = NFC + ".NfcService";
 
-    public static void doHook(final XSharedPreferences prefs, final ClassLoader classLoader) {
+    public static void doHook(final RemotePreferences prefs, final ClassLoader classLoader) {
 
         try {
             XposedHelpers.findAndHookMethod(NFC_SERVICE,
@@ -45,7 +46,6 @@ public class XNfcPackage {
 
                             if ((Boolean) XposedHelpers.callMethod(param.thisObject,
                                     "isNfcEnabled")) {
-                                prefs.reload();
                                 param.args[0] =
                                         !prefs.getBoolean(PREF_HIDE_NFC_ICON, false);
                             }

@@ -49,6 +49,13 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:label="@string/rebooting_"
             android:theme="@style/Theme.AppCompat.Dialog" />
+
+        <provider
+            android:name=".providers.XRemotePreferenceProvider"
+            android:authorities="sb.firefds.q.firefdskit.preferences"
+            android:directBootAware="true"
+            android:exported="true"
+            tools:ignore="ExportedContentProvider" />
     </application>
 
 </manifest>
