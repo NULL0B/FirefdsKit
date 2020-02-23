@@ -28,8 +28,13 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import sb.firefds.pie.firefdskit.utils.Packages;
 import sb.firefds.pie.firefdskit.utils.Utils;
 
+import static sb.firefds.pie.firefdskit.utils.Constants.PREFS;
+import static sb.firefds.pie.firefdskit.utils.Constants.PREFS_AUTHORITY;
+
 @Keep
 public class Xposed implements IXposedHookLoadPackage {
+
+    private final static String ACTIVITY_THREAD_CLASS = "android.app.ActivityThread";
 
     @Override
     public void handleLoadPackage(LoadPackageParam lpparam) {
@@ -39,14 +44,10 @@ public class Xposed implements IXposedHookLoadPackage {
             XposedBridge.log("FFK: com.samsung.device.jar or com.samsung.device.lite.jar not found!");
             return;
         }
-
-        Class<?> activityThreadClass = XposedHelpers.findClass("android.app.ActivityThread", null);
+        Class<?> activityThreadClass = XposedHelpers.findClass(ACTIVITY_THREAD_CLASS, null);
         Object activityThread = XposedHelpers.callStaticMethod(activityThreadClass, "currentActivityThread");
         Context context = (Context) XposedHelpers.callMethod(activityThread, "getSystemContext");
-        RemotePreferences prefs = new RemotePreferences(context,
-                "sb.firefds.pie.firefdskit.preferences",
-                BuildConfig.APPLICATION_ID + "_preferences",
-                true);
+        RemotePreferences prefs = new RemotePreferences(context, PREFS_AUTHORITY, PREFS);
 
         if (lpparam.packageName.equals(Packages.FIREFDSKIT)) {
             if (prefs != null) {
