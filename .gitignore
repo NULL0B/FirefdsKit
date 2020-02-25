@@ -1,0 +1,9 @@
+/.gradle/
+/.idea/
+/build/intermediates/lint-cache/
+/release/
+/FirefdsKit.iml
+/local.properties
+/firefdskit/build/
+/firefdskit/firefdskit.iml
+/firefdskit/gradle.properties
