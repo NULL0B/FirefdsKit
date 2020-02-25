@@ -14,14 +14,12 @@
  */
 package sb.firefds.pie.firefdskit.utils;
 
-import sb.firefds.pie.firefdskit.BuildConfig;
-
 import static sb.firefds.pie.firefdskit.utils.Packages.FIREFDSKIT;
 
 public class Constants {
 
     public static final String BACKUP_DIR = "FirefdsKitBackup";
-    public static final String PREFS = BuildConfig.APPLICATION_ID + "_preferences";
+    public static final String PREFS = FIREFDSKIT + "_preferences";
     public static final String PREFS_AUTHORITY = FIREFDSKIT + ".preferences";
 
     public static final String REBOOT_ACTION = "REBOOT_ACTION";

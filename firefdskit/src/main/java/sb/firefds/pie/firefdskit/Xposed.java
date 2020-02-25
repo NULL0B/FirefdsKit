@@ -44,10 +44,16 @@ public class Xposed implements IXposedHookLoadPackage {
             XposedBridge.log("FFK: com.samsung.device.jar or com.samsung.device.lite.jar not found!");
             return;
         }
+
+        RemotePreferences prefs;
         Class<?> activityThreadClass = XposedHelpers.findClass(ACTIVITY_THREAD_CLASS, null);
         Object activityThread = XposedHelpers.callStaticMethod(activityThreadClass, "currentActivityThread");
-        Context context = (Context) XposedHelpers.callMethod(activityThread, "getSystemContext");
-        RemotePreferences prefs = new RemotePreferences(context, PREFS_AUTHORITY, PREFS);
+        if (activityThread != null) {
+            Context context = (Context) XposedHelpers.callMethod(activityThread, "getSystemContext");
+            prefs = new RemotePreferences(context, PREFS_AUTHORITY, PREFS);
+        } else {
+            return;
+        }
 
         if (lpparam.packageName.equals(Packages.FIREFDSKIT)) {
             if (prefs != null) {
