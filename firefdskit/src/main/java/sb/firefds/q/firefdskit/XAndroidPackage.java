@@ -16,6 +16,7 @@ package sb.firefds.q.firefdskit;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Binder;
 
 import com.crossbowffs.remotepreferences.RemotePreferences;
 
@@ -32,10 +33,43 @@ public class XAndroidPackage {
     private static final String STATUS_BAR_MANAGER_SERVICE = "com.android.server.statusbar.StatusBarManagerService";
     private static final String USB_HANDLER = "com.android.server.usb.UsbDeviceManager.UsbHandler";
     private static final String SHUTDOWN_THREAD = "com.android.server.power.ShutdownThread";
+    private static final String I_APPLICATION_THREAD_CLASS = "android.app.IApplicationThread";
+    private static final String ACTIVITY_MANAGER_SERVICE = "com.android.server.am.ActivityManagerService";
 
     @SuppressLint("StaticFieldLeak")
 
     public static void doHook(final RemotePreferences prefs, final ClassLoader classLoader) {
+
+        try {
+
+            Class<?> iApplicationThreadClass = XposedHelpers.findClass(I_APPLICATION_THREAD_CLASS, null);
+            XposedHelpers.findAndHookMethod(ACTIVITY_MANAGER_SERVICE,
+                    classLoader,
+                    "getContentProvider",
+                    iApplicationThreadClass,
+                    String.class,
+                    String.class,
+                    int.class,
+                    boolean.class,
+                    new XC_MethodHook() {
+                        @Override
+                        protected void beforeHookedMethod(MethodHookParam param) {
+                            if (param.args[1].equals("android")) {
+                                param.setResult(XposedHelpers.callMethod(param.thisObject,
+                                        "getContentProviderImpl",
+                                        param.args[0],
+                                        param.args[2],
+                                        null,
+                                        Binder.getCallingUid(),
+                                        param.args[1],
+                                        null, param.args[4],
+                                        param.args[3]));
+                            }
+                        }
+                    });
+        } catch (Exception e) {
+            XposedBridge.log(e);
+        }
 
         try {
             Class<?> shutdownThreadClass = XposedHelpers.findClass(SHUTDOWN_THREAD, classLoader);
