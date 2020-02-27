@@ -31,7 +31,7 @@ public class XSecCameraPackage {
     private static final String CAMERA_TEMPERATURE_MANAGER = CAMERA + ".provider.CameraTemperatureManager";
     private static final String PREFERENCE_SETTING_FRAGMENT = CAMERA + ".setting.PreferenceSettingFragment";
 
-    public static void doHook(final RemotePreferences prefs, ClassLoader classLoader) {
+    public static void doHook(RemotePreferences prefs, ClassLoader classLoader) {
 
         final Class<?> cameraFeatureClass = XposedHelpers.findClass(FEATURE, classLoader);
 

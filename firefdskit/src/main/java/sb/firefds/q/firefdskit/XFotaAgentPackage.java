@@ -14,8 +14,7 @@ public class XFotaAgentPackage {
     private static final String DEVICE_UTILS_OLD = "com.samsung.android.fem.common.util.DeviceUtils";
     private static final String DEVICE_UTILS_NEW = "com.idm.fotaagent.enabler.utils.DeviceUtils";
 
-    public static void doHook(final RemotePreferences prefs, final ClassLoader classLoader) {
-
+    public static void doHook(RemotePreferences prefs, ClassLoader classLoader) {
 
         if (prefs.getBoolean(PREF_MAKE_OFFICIAL, true)) {
             try {
@@ -31,7 +30,7 @@ public class XFotaAgentPackage {
                         });
 
             } catch (Throwable e) {
-                XposedBridge.log(DEVICE_UTILS_OLD + " not found. Trying " + DEVICE_UTILS_NEW);
+                XposedBridge.log("FFK: " + DEVICE_UTILS_OLD + " not found. Trying " + DEVICE_UTILS_NEW);
                 try {
                     XposedHelpers.findAndHookMethod(DEVICE_UTILS_NEW,
                             classLoader,

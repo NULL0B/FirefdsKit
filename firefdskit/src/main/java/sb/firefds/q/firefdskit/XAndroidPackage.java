@@ -38,10 +38,9 @@ public class XAndroidPackage {
 
     @SuppressLint("StaticFieldLeak")
 
-    public static void doHook(final RemotePreferences prefs, final ClassLoader classLoader) {
+    public static void doHook(RemotePreferences prefs, ClassLoader classLoader) {
 
         try {
-
             Class<?> iApplicationThreadClass = XposedHelpers.findClass(I_APPLICATION_THREAD_CLASS, null);
             XposedHelpers.findAndHookMethod(ACTIVITY_MANAGER_SERVICE,
                     classLoader,
@@ -95,10 +94,11 @@ public class XAndroidPackage {
         }
 
         try {
-            Class<?> statusBarManagerService = XposedHelpers.findClass(STATUS_BAR_MANAGER_SERVICE, classLoader);
-            XposedHelpers.findAndHookMethod(statusBarManagerService,
+            XposedHelpers.findAndHookMethod(STATUS_BAR_MANAGER_SERVICE,
+                    classLoader,
                     "setIconVisibility",
-                    String.class, boolean.class,
+                    String.class,
+                    boolean.class,
                     new XC_MethodHook() {
                         @Override
                         protected void beforeHookedMethod(MethodHookParam param) {

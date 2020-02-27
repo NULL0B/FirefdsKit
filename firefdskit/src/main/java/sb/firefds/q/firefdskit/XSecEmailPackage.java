@@ -36,7 +36,7 @@ public class XSecEmailPackage {
 
     private static ClassLoader classLoader;
 
-    public static void doHook(final RemotePreferences prefs, ClassLoader classLoader) {
+    public static void doHook(RemotePreferences prefs, ClassLoader classLoader) {
 
         XSecEmailPackage.classLoader = classLoader;
 

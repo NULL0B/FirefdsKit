@@ -23,7 +23,7 @@ import static sb.firefds.q.firefdskit.utils.Preferences.PREF_SUPPORTS_MULTIPLE_U
 
 public class XSystemWide {
 
-    public static void doHook(final RemotePreferences prefs) {
+    public static void doHook(RemotePreferences prefs) {
 
         try {
             XposedHelpers.findAndHookMethod(Window.class,

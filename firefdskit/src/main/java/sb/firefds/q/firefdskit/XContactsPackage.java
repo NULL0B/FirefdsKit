@@ -11,7 +11,7 @@ import static sb.firefds.q.firefdskit.utils.Preferences.PREF_DISABLE_NUMBER_FORM
 public class XContactsPackage {
     private static final String CSC_FEATURE_UTIL = "com.samsung.android.dialtacts.util.CscFeatureUtil";
 
-    public static void doHook(final RemotePreferences prefs, ClassLoader classLoader) {
+    public static void doHook(RemotePreferences prefs, ClassLoader classLoader) {
 
         try {
             XposedHelpers.findAndHookMethod(CSC_FEATURE_UTIL,
