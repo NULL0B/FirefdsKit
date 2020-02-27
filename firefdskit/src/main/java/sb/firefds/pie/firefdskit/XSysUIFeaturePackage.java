@@ -76,8 +76,7 @@ public class XSysUIFeaturePackage {
     private static Class<?> qsClock;
     private static Method updateClock;
 
-    public static void doHook(final RemotePreferences prefs, final ClassLoader classLoader) {
-
+    public static void doHook(RemotePreferences prefs, ClassLoader classLoader) {
 
         try {
             if (prefs.getBoolean(PREF_STATUSBAR_DOUBLE_TAP, false)) {

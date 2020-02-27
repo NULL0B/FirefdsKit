@@ -13,7 +13,7 @@ public class XFotaAgentPackage {
 
     private static final String DEVICE_UTILS = "com.samsung.android.fem.common.util.DeviceUtils";
 
-    public static void doHook(final RemotePreferences prefs, final ClassLoader classLoader) {
+    public static void doHook(RemotePreferences prefs, ClassLoader classLoader) {
 
         try {
             if (prefs.getBoolean(PREF_MAKE_OFFICIAL, true)) {

@@ -22,7 +22,7 @@ public class XSystemWide {
 
     private final static String WIFI_AP_CUST_CLASS = "android.net.wifi.WifiApCust";
 
-    public static void doHook(final RemotePreferences prefs) {
+    public static void doHook(RemotePreferences prefs) {
         try {
             XposedHelpers.findAndHookMethod(Window.class,
                     "setFlags",

@@ -67,7 +67,7 @@ public class XSecSettingsPackage {
     private static Class<?> NavigationBarSettings;
     private static Class<?> NavigationBarColorPreference;
 
-    public static void doHook(final RemotePreferences prefs, final ClassLoader classLoader) {
+    public static void doHook(RemotePreferences prefs, ClassLoader classLoader) {
 
         XSecSettingsPackage.classLoader = classLoader;
         XSecSettingsPackage.prefs = prefs;

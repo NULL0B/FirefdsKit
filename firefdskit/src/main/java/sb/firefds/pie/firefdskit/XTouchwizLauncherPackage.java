@@ -13,8 +13,8 @@ public class XTouchwizLauncherPackage {
     private static final String PAGE_TRANSITION_MANAGER =
             "com.android.launcher3.framework.view.features.pagetransition.PageTransitionManager";
 
-    public static void doHook(final RemotePreferences prefs, ClassLoader classLoader) {
-        int transEffect = Integer.valueOf(prefs.getString(PREF_TRANSITION_EFFECT, "0"));
+    public static void doHook(RemotePreferences prefs, ClassLoader classLoader) {
+        int transEffect = Integer.parseInt(prefs.getString(PREF_TRANSITION_EFFECT, "0"));
         if (transEffect != 0) {
             try {
                 XposedHelpers.findAndHookMethod(PAGE_TRANSITION_MANAGER,

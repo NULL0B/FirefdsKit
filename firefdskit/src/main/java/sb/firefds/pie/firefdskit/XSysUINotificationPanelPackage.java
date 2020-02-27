@@ -32,7 +32,7 @@ public class XSysUINotificationPanelPackage {
     private static String dataIconBehavior;
     private static ClassLoader classLoader;
 
-    public static void doHook(final RemotePreferences prefs, final ClassLoader classLoader) {
+    public static void doHook(RemotePreferences prefs, ClassLoader classLoader) {
 
         XSysUINotificationPanelPackage.classLoader = classLoader;
         final Class<?> systemUIRuneClass = XposedHelpers.findClass(RUNE, classLoader);

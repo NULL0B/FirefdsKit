@@ -32,7 +32,7 @@ public class XAndroidPackage {
     private static final String USB_HANDLER = "com.android.server.usb.UsbDeviceManager.UsbHandler";
     private static final String SHUTDOWN_THREAD = "com.android.server.power.ShutdownThread";
 
-    public static void doHook(final RemotePreferences prefs, final ClassLoader classLoader) {
+    public static void doHook(RemotePreferences prefs, ClassLoader classLoader) {
 
         try {
             Class<?> shutdownThreadClass = XposedHelpers.findClass(SHUTDOWN_THREAD, classLoader);
@@ -58,10 +58,11 @@ public class XAndroidPackage {
         }
 
         try {
-            Class<?> statusBarManagerService = XposedHelpers.findClass(STATUS_BAR_MANAGER_SERVICE, classLoader);
-            XposedHelpers.findAndHookMethod(statusBarManagerService,
+            XposedHelpers.findAndHookMethod(STATUS_BAR_MANAGER_SERVICE,
+                    classLoader,
                     "setIconVisibility",
-                    String.class, boolean.class,
+                    String.class,
+                    boolean.class,
                     new XC_MethodHook() {
                         @Override
                         protected void beforeHookedMethod(MethodHookParam param) {

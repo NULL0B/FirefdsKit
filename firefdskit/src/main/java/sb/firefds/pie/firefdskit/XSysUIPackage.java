@@ -20,13 +20,13 @@ import de.robv.android.xposed.XposedBridge;
 
 public class XSysUIPackage {
 
-    public static void doHook(final RemotePreferences prefs, ClassLoader classLoader) {
+    public static void doHook(RemotePreferences prefs, ClassLoader classLoader) {
 
-		try {
-			XSysUIFeaturePackage.doHook(prefs, classLoader);
-		} catch (Throwable e) {
-			XposedBridge.log(e);
-		}
+        try {
+            XSysUIFeaturePackage.doHook(prefs, classLoader);
+        } catch (Throwable e) {
+            XposedBridge.log(e);
+        }
 
         try {
             XSysUINotificationPanelPackage.doHook(prefs, classLoader);

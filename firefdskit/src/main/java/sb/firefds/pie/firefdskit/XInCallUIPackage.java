@@ -33,7 +33,7 @@ public class XInCallUIPackage {
     private static final String VOICE_RECORDING_BY_BUTTON_FEATURE_IMPL = FEATURE_FUNCTION + ".VoiceRecordingByButtonFeatureImpl";
     private static final String VOICE_RECORDING_CONTEXT_IMPL = INCALLUI + ".modelimpl.callcontext.VoiceRecordingContextImpl";
 
-    public static void doHook(final RemotePreferences prefs, final ClassLoader classLoader) {
+    public static void doHook(RemotePreferences prefs, ClassLoader classLoader) {
 
         try {
             XposedHelpers.findAndHookMethod(VOICE_RECORDING_FEATURE_IMPL,
