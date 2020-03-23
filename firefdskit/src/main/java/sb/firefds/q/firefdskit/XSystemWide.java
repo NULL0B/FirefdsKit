@@ -1,7 +1,6 @@
 package sb.firefds.q.firefdskit;
 
 import android.os.PowerManager;
-import android.os.UserManager;
 import android.view.SurfaceView;
 import android.view.Window;
 import android.view.WindowManager;
@@ -62,8 +61,8 @@ public class XSystemWide {
                                     param.args[0] = "recovery";
                                 }
                             }
-                        });
-            }
+                        }
+                    });
 
             XposedHelpers.findAndHookMethod(SemCscFeature.class,
                     "getString",
