@@ -117,11 +117,9 @@ public class XSysUIGlobalActions {
     private static Object mFlashlightObject;
     private static String mFlashlightOnStr;
     private static String mFlashlightOffStr;
-
-    public static void doHook(RemotePreferences prefs, ClassLoader classLoader) {
     private static boolean prefUnlockKeyguardBeforeActionExecute;
 
-    public static void doHook(XSharedPreferences prefs, ClassLoader classLoader) {
+    public static void doHook(RemotePreferences prefs, ClassLoader classLoader) {
 
         XposedHelpers.findAndHookConstructor(FLASHLIGHT_CONTROLLER_IMPL_CLASS,
                 classLoader,

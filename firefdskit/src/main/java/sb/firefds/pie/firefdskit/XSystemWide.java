@@ -1,6 +1,7 @@
 package sb.firefds.pie.firefdskit;
 
 import android.os.PowerManager;
+import android.os.UserManager;
 import android.view.SurfaceView;
 import android.view.Window;
 import android.view.WindowManager;
@@ -19,6 +20,8 @@ import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_DISABLE_SECURE_FL
 import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_ENABLE_ADVANCED_HOTSPOT_OPTIONS;
 import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_ENABLE_CALL_ADD;
 import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_ENABLE_CALL_RECORDING;
+import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_MAX_SUPPORTED_USERS;
+import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_SUPPORTS_MULTIPLE_USERS;
 
 public class XSystemWide {
 
@@ -104,6 +107,46 @@ public class XSystemWide {
                         }
                     });
 
+            XposedHelpers.findAndHookMethod(SemCscFeature.class,
+                    "getString",
+                    String.class,
+                    new XC_MethodHook() {
+                        @Override
+                        protected void beforeHookedMethod(MethodHookParam param) {
+                            if (param.args[0].equals(ENABLE_CALL_RECORDING)) {
+                                if (prefs.getBoolean(PREF_ENABLE_CALL_RECORDING, false)) {
+                                    if (prefs.getBoolean(PREF_ENABLE_CALL_ADD, false)) {
+                                        param.setResult("RecordingAllowedByMenu");
+                                    } else {
+                                        param.setResult("RecordingAllowed");
+                                    }
+                                } else {
+                                    param.setResult("");
+                                }
+                            }
+                        }
+                    });
+
+            XposedHelpers.findAndHookMethod(SemCscFeature.class,
+                    "getString",
+                    String.class,
+                    String.class,
+                    new XC_MethodHook() {
+                        @Override
+                        protected void beforeHookedMethod(MethodHookParam param) {
+                            if (param.args[0].equals(ENABLE_CALL_RECORDING)) {
+                                if (prefs.getBoolean(PREF_ENABLE_CALL_RECORDING, false)) {
+                                    if (prefs.getBoolean(PREF_ENABLE_CALL_ADD, false)) {
+                                        param.setResult("RecordingAllowedByMenu");
+                                    } else {
+                                        param.setResult("RecordingAllowed");
+                                    }
+                                } else {
+                                    param.setResult("");
+                                }
+                            }
+                        }
+                    });
         } catch (Throwable e) {
             XposedBridge.log(e);
         }
