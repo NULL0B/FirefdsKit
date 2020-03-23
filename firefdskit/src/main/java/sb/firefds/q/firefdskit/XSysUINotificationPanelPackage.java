@@ -46,7 +46,6 @@ public class XSysUINotificationPanelPackage {
                         protected void afterHookedMethod(MethodHookParam param) {
                             TextView tvCarrier = (TextView) param.thisObject;
 
-
                             if (prefs.getBoolean(PREF_HIDE_CARRIER_LABEL, false)) {
                                 tvCarrier.setText(" ");
                             }
@@ -82,7 +81,6 @@ public class XSysUINotificationPanelPackage {
                     new XC_MethodReplacement() {
                         @Override
                         protected Object replaceHookedMethod(MethodHookParam param) {
-
                             return prefs.getBoolean(PREF_DATA_USAGE_VIEW, false);
                         }
                     });

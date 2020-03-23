@@ -18,8 +18,6 @@ import static sb.firefds.q.firefdskit.utils.Preferences.PREF_DEFAULT_REBOOT_BEHA
 import static sb.firefds.q.firefdskit.utils.Preferences.PREF_DISABLE_SECURE_FLAG;
 import static sb.firefds.q.firefdskit.utils.Preferences.PREF_ENABLE_CALL_ADD;
 import static sb.firefds.q.firefdskit.utils.Preferences.PREF_ENABLE_CALL_RECORDING;
-import static sb.firefds.q.firefdskit.utils.Preferences.PREF_MAX_SUPPORTED_USERS;
-import static sb.firefds.q.firefdskit.utils.Preferences.PREF_SUPPORTS_MULTIPLE_USERS;
 
 public class XSystemWide {
 
@@ -64,29 +62,8 @@ public class XSystemWide {
                                     param.args[0] = "recovery";
                                 }
                             }
-                        }
-                    });
-
-
-            XposedHelpers.findAndHookMethod(UserManager.class, "supportsMultipleUsers",
-                    new XC_MethodHook() {
-                        @Override
-                        protected void afterHookedMethod(MethodHookParam param) {
-                            if (prefs.getBoolean(PREF_SUPPORTS_MULTIPLE_USERS, false)) {
-                                param.setResult(true);
-                            }
-                        }
-                    });
-
-            XposedHelpers.findAndHookMethod(UserManager.class, "getMaxSupportedUsers",
-                    new XC_MethodHook() {
-                        @Override
-                        protected void afterHookedMethod(MethodHookParam param) {
-                            if (prefs.getBoolean(PREF_SUPPORTS_MULTIPLE_USERS, false)) {
-                                param.setResult(prefs.getInt(PREF_MAX_SUPPORTED_USERS, 3));
-                            }
-                        }
-                    });
+                        });
+            }
 
             XposedHelpers.findAndHookMethod(SemCscFeature.class,
                     "getString",
@@ -128,7 +105,6 @@ public class XSystemWide {
                             }
                         }
                     });
-
         } catch (Throwable e) {
             XposedBridge.log(e);
         }
