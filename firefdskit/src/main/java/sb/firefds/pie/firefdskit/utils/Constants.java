@@ -20,6 +20,7 @@ public class Constants {
 
     public static final String BACKUP_DIR = "FirefdsKitBackup";
     public static final String PREFS = FIREFDSKIT + "_preferences";
+    public static final String PREFS = FIREFDSKIT + "_preferences";
     public static final String PREFS_AUTHORITY = FIREFDSKIT + ".preferences";
 
     public static final String REBOOT_ACTION = "REBOOT_ACTION";
@@ -30,6 +31,7 @@ public class Constants {
     public static final String DISABLE_SMS_TO_MMS_CONVERSION_BY_TEXT_INPUT =
             "CscFeature_Message_DisableSmsToMmsConversionByTextInput";
     public static final String DISABLE_PHONE_NUMBER_FORMATTING = "CscFeature_Common_DisablePhoneNumberFormatting";
+    public static final String ENABLE_CALL_RECORDING = "CscFeature_VoiceCall_ConfigRecording";
 
     public static final String SHORTCUT_STATUSBAR = "STATUSBAR";
     public static final String SHORTCUT_SYSTEM = "SYSTEM";

@@ -31,6 +31,8 @@ import sb.firefds.pie.firefdskit.utils.Utils;
 import static sb.firefds.pie.firefdskit.utils.Constants.PREFS;
 import static sb.firefds.pie.firefdskit.utils.Constants.PREFS_AUTHORITY;
 
+import static sb.firefds.pie.firefdskit.utils.Packages.FIREFDSKIT;
+
 @Keep
 public class Xposed implements IXposedHookLoadPackage {
 
@@ -55,10 +57,10 @@ public class Xposed implements IXposedHookLoadPackage {
             return;
         }
 
-        if (lpparam.packageName.equals(Packages.FIREFDSKIT)) {
+        if (lpparam.packageName.equals(FIREFDSKIT)) {
             if (prefs != null) {
                 try {
-                    XposedHelpers.findAndHookMethod(Packages.FIREFDSKIT + ".XposedChecker",
+                    XposedHelpers.findAndHookMethod(FIREFDSKIT + ".XposedChecker",
                             lpparam.classLoader,
                             "isActive",
                             XC_MethodReplacement.returnConstant(Boolean.TRUE));
@@ -85,14 +87,6 @@ public class Xposed implements IXposedHookLoadPackage {
 
             try {
                 XAndroidPackage.doHook(prefs, lpparam.classLoader);
-            } catch (Throwable e) {
-                XposedBridge.log(e);
-            }
-        }
-
-        if (lpparam.packageName.equals(Packages.SAMSUNG_INCALLUI)) {
-            try {
-                XInCallUIPackage.doHook(prefs, lpparam.classLoader);
             } catch (Throwable e) {
                 XposedBridge.log(e);
             }

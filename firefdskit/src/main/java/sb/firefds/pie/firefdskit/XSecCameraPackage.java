@@ -33,7 +33,7 @@ public class XSecCameraPackage {
 
     public static void doHook(RemotePreferences prefs, ClassLoader classLoader) {
 
-        final Class<?> cameraFeatureClass = XposedHelpers.findClass(FEATURE, classLoader);
+        Class<?> cameraFeatureClass = XposedHelpers.findClass(FEATURE, classLoader);
 
         if (prefs.getBoolean(PREF_DISABLE_TEMPERATURE_CHECKS, false)) {
             try {

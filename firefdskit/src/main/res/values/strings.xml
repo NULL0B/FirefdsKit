@@ -81,8 +81,8 @@
     <string name="force_mms_connect_to_receive_mms">Force MMS connect, to receive MMS without manually enabling mobile data</string>
     <string name="disable_temperature_checks">Disable Temperature checks</string>
     <string name="disable_temperature_warnings_on_the_recording">Disable temperature warnings on the recording and flash use. Use it only if you need it!</string>
-    <string name="auto_call_recording">Auto call recording</string>
-    <string name="enable_automatic_call_recording">Enable automatic call recording</string>
+    <string name="call_recording">Call recording</string>
+    <string name="call_recording_summary">Enable call recording and call recording settings in Phone settings</string>
     <string name="firefds_kit_is_not_active">Firefds Kit is NOT active! Make sure:\n- This App has Root permissions\n- Xposed framework is installed\n- This module is enabled on Xposed installer then REBOOT.</string>
     <string name="screenshot">Screenshot</string>
     <string name="add_screenshot_to_power_menu">Enable Screenshot in power menu</string>
@@ -230,4 +230,6 @@
     <string name="default_reboot_behavior_summary">Set Default reboot behavior to reboot to Recovery. WARNING: DO NOT USE WITH CUSTOM KERNELS THAT MIMIC THIS BEHAVIOR!</string>
     <string name="enable_advanced_hotspot_options_title">Enable Advanced Hotspot Options</string>
     <string name="enable_advanced_hotspot_options_summary">Enable additional advanced hotspot settings options</string>
+    <string name="unlock_keyguard_before_action_execute_summary">Perform restart or power off actions after unlocking secure keyguard</string>
+    <string name="unlock_keyguard_before_action_execute_title">Unlock Keyguard Before Actions</string>
 </resources>

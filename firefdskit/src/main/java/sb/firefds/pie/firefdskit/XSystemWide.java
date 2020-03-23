@@ -1,22 +1,24 @@
 package sb.firefds.pie.firefdskit;
 
 import android.os.PowerManager;
-import android.os.UserManager;
 import android.view.SurfaceView;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.crossbowffs.remotepreferences.RemotePreferences;
 
+import com.samsung.android.feature.SemCscFeature;
+
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
+import static sb.firefds.pie.firefdskit.utils.Constants.ENABLE_CALL_RECORDING;
 import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_DEFAULT_REBOOT_BEHAVIOR;
 import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_DISABLE_SECURE_FLAG;
 import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_ENABLE_ADVANCED_HOTSPOT_OPTIONS;
-import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_MAX_SUPPORTED_USERS;
-import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_SUPPORTS_MULTIPLE_USERS;
+import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_ENABLE_CALL_ADD;
+import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_ENABLE_CALL_RECORDING;
 
 public class XSystemWide {
 

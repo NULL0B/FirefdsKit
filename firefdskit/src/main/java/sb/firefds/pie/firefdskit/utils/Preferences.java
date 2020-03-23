@@ -44,6 +44,7 @@ public class Preferences {
     public static final String PREF_CUSTOM_RECOVERY_CONFIRMATION = "customRecoveryConfirmation";
     public static final String PREF_DISABLE_RESTART_CONFIRMATION = "disbaleRestartConfirmation";
     public static final String PREF_DISABLE_POWER_MENU_SECURE_LOCKSCREEN = "disablePowerMenuSecureLockscreen";
+    public static final String PREF_UNLOCK_KEYGUARD_BEFORE_ACTION_EXECUTE = "unlockKeyguardBeforeActionExecute";
     public static final String PREF_DEFAULT_REBOOT_BEHAVIOR = "defaultRebootBehavior";
     public static final String PREF_NAVIGATION_BAR_COLOR = "navigationBarColor";
     public static final String PREF_SUPPORTS_MULTIPLE_USERS = "supportsMultipleUsers";
@@ -59,8 +60,7 @@ public class Preferences {
     public static final String PREF_TRANSITION_EFFECT = "transitionEffect";
 
     public static final String PREF_ENABLE_CALL_ADD = "enableCallAdd";
-    public static final String PREF_ENABLE_CALL_RECORDING_MENU = "enableCallRecordingMenu";
-    public static final String PREF_ENABLE_AUTO_CALL_RECORDING = "enableAutoCallRecording";
+    public static final String PREF_ENABLE_CALL_RECORDING = "enableCallRecording";
     public static final String PREF_DISABLE_NUMBER_FORMATTING = "disableNumberFormatting";
     public static final String PREF_DISABLE_FIX_CONTACTS_SANDHOOK_CRASH = "disableFixContactsSandhookCrash";
 
