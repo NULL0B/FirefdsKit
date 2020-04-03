@@ -1,5 +1,6 @@
 package sb.firefds.q.firefdskit;
 
+import android.net.wifi.WifiManager;
 import android.os.PowerManager;
 import android.view.SurfaceView;
 import android.view.Window;
@@ -15,6 +16,7 @@ import de.robv.android.xposed.XposedHelpers;
 import static sb.firefds.q.firefdskit.utils.Constants.ENABLE_CALL_RECORDING;
 import static sb.firefds.q.firefdskit.utils.Preferences.PREF_DEFAULT_REBOOT_BEHAVIOR;
 import static sb.firefds.q.firefdskit.utils.Preferences.PREF_DISABLE_SECURE_FLAG;
+import static sb.firefds.q.firefdskit.utils.Preferences.PREF_ENABLE_ADVANCED_HOTSPOT_OPTIONS;
 import static sb.firefds.q.firefdskit.utils.Preferences.PREF_ENABLE_CALL_ADD;
 import static sb.firefds.q.firefdskit.utils.Preferences.PREF_ENABLE_CALL_RECORDING;
 
@@ -60,6 +62,28 @@ public class XSystemWide {
                                 if (param.args[0] == null) {
                                     param.args[0] = "recovery";
                                 }
+                            }
+                        }
+                    });
+
+            XposedHelpers.findAndHookMethod(WifiManager.class,
+                    "semSupportWifiAp5GBasedOnCountry",
+                    new XC_MethodHook() {
+                        @Override
+                        protected void beforeHookedMethod(MethodHookParam param) {
+                            if (prefs.getBoolean(PREF_ENABLE_ADVANCED_HOTSPOT_OPTIONS, false)) {
+                                param.setResult(Boolean.TRUE);
+                            }
+                        }
+                    });
+
+            XposedHelpers.findAndHookMethod(WifiManager.class,
+                    "semSupportWifiAp5G",
+                    new XC_MethodHook() {
+                        @Override
+                        protected void beforeHookedMethod(MethodHookParam param) {
+                            if (prefs.getBoolean(PREF_ENABLE_ADVANCED_HOTSPOT_OPTIONS, false)) {
+                                param.setResult(Boolean.TRUE);
                             }
                         }
                     });
