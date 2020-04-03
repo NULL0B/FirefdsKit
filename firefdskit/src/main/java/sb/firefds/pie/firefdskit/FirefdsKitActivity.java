@@ -61,6 +61,7 @@ import java.util.Map.Entry;
 import sb.firefds.pie.firefdskit.dialogs.CreditDialog;
 import sb.firefds.pie.firefdskit.dialogs.RestoreDialog;
 import sb.firefds.pie.firefdskit.dialogs.SaveDialog;
+import sb.firefds.pie.firefdskit.fragments.FirefdsKitSettingsFragment;
 import sb.firefds.pie.firefdskit.fragments.FirefdsPreferenceFragment;
 import sb.firefds.pie.firefdskit.fragments.LockscreenSettingsFragment;
 import sb.firefds.pie.firefdskit.fragments.MessagingSettingsFragment;
@@ -93,6 +94,7 @@ import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_NFC_BEHAVIOR;
 import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_SCREEN_TIMEOUT_HOURS;
 import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_SCREEN_TIMEOUT_MINUTES;
 import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_SCREEN_TIMEOUT_SECONDS;
+import static sb.firefds.pie.firefdskit.utils.Utils.checkForceEnglish;
 
 public class FirefdsKitActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -127,6 +129,12 @@ public class FirefdsKitActivity extends AppCompatActivity
         }
 
         setContentView(R.layout.firefds_main);
+
+        if (savedInstanceState != null) {
+            CardView cardXposedView = findViewById(R.id.card_xposed_view);
+            cardXposedView.setVisibility(View.GONE);
+        }
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawer = findViewById(R.id.firefds_main);
@@ -363,6 +371,12 @@ public class FirefdsKitActivity extends AppCompatActivity
                         .replace(R.id.content_main, newFragment)
                         .addToBackStack("launcherKey").commit();
                 break;
+            case R.id.firefdsKitKey:
+                newFragment = new FirefdsKitSettingsFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.content_main, newFragment)
+                        .addToBackStack("firefdsKitKey").commit();
+                break;
         }
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(item.getTitle());
@@ -370,6 +384,13 @@ public class FirefdsKitActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.firefds_main);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        Context tempContext = isDeviceEncrypted() ? newBase.createDeviceProtectedStorageContext() : newBase;
+        Context context = checkForceEnglish(newBase, tempContext.getSharedPreferences(PREFS, MODE_PRIVATE));
+        super.attachBaseContext(context);
     }
 
     private void showHomePage() {
