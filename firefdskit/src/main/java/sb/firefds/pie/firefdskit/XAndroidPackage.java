@@ -23,6 +23,7 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
 import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_DEFAULT_REBOOT_BEHAVIOR;
+import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_ENABLE_ADVANCED_HOTSPOT_OPTIONS;
 import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_HIDE_USB_NOTIFICATION;
 import static sb.firefds.pie.firefdskit.utils.Preferences.PREF_HIDE_VOLTE_ICON;
 
@@ -31,8 +32,49 @@ public class XAndroidPackage {
     private static final String STATUS_BAR_MANAGER_SERVICE = "com.android.server.statusbar.StatusBarManagerService";
     private static final String USB_HANDLER = "com.android.server.usb.UsbDeviceManager.UsbHandler";
     private static final String SHUTDOWN_THREAD = "com.android.server.power.ShutdownThread";
+    private static final String WIFI_NATIVE_CLASS = "com.android.server.wifi.WifiNative";
+    private static final String AP_CONFIG_UTIL_CLASS = "com.android.server.wifi.util.ApConfigUtil";
+    private static final String ACTIVITY_MANAGER_SERVICE = "com.android.server.am.ActivityManagerService";
 
     public static void doHook(RemotePreferences prefs, ClassLoader classLoader) {
+
+        try {
+            XposedHelpers.findAndHookMethod(ACTIVITY_MANAGER_SERVICE,
+                    classLoader,
+                    "appRestrictedInBackgroundLocked",
+                    int.class,
+                    String.class,
+                    int.class,
+                    new XC_MethodHook() {
+                        @Override
+                        protected void beforeHookedMethod(MethodHookParam param) {
+                            if (param.args[1].equals("org.meowcat.edxposed.manager")) {
+                                param.setResult(0);
+                            }
+                        }
+                    });
+        } catch (Throwable e) {
+            XposedBridge.log(e);
+        }
+
+        try {
+                Class<?> wifiNativeClass = XposedHelpers.findClass(WIFI_NATIVE_CLASS, classLoader);
+                XposedHelpers.findAndHookMethod(AP_CONFIG_UTIL_CLASS,
+                        classLoader,
+                        "isWifiApSupport5G",
+                        wifiNativeClass,
+                        String.class,
+                        new XC_MethodHook() {
+                            @Override
+                            protected void beforeHookedMethod(MethodHookParam param) {
+                                if (prefs.getBoolean(PREF_ENABLE_ADVANCED_HOTSPOT_OPTIONS, false)) {
+                                    param.setResult(Boolean.TRUE);
+                                }
+                            }
+                        });
+        } catch (Throwable e) {
+            XposedBridge.log(e);
+        }
 
         try {
             Class<?> shutdownThreadClass = XposedHelpers.findClass(SHUTDOWN_THREAD, classLoader);
